@@ -1,6 +1,7 @@
 package arya.phonebook.dao.h2.model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -20,7 +21,13 @@ public class EmailDetailDao extends EntityDao<EmailDetail> {
 		preparedStatement.setString(1, entity.getEmail());
 		preparedStatement.setString(2, entity.getDescription());
 		preparedStatement.executeUpdate();
-		return null;
+		
+		ResultSet resultSet = preparedStatement.getGeneratedKeys();
+		while (resultSet.next()) {
+			entity.setId(resultSet.getInt(1));
+		}
+		
+		return entity;
 	}
 
 	@Override

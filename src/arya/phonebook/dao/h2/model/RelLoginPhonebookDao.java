@@ -1,6 +1,7 @@
 package arya.phonebook.dao.h2.model;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -8,19 +9,32 @@ import arya.phonebook.dao.h2.commands.ICommands;
 import arya.phonebook.dao.h2.model.abstracts.EntityDao;
 import arya.phonebook.model.RelLoginPhonebook;
 
-public class RelLoginPhonebookDao extends EntityDao<RelLoginPhonebook>{
+public class RelLoginPhonebookDao extends EntityDao<RelLoginPhonebook> {
 	private LoginDao loginDao;
-	
+
 	public RelLoginPhonebookDao() throws ClassNotFoundException, SQLException {
+		loginDao = new LoginDao();
 		getStatement().execute(ICommands.CREATE_TABLE_RELLOGINPHONEBOOK);
 	}
 
 	@Override
 	public RelLoginPhonebook insert(RelLoginPhonebook entity) throws ClassNotFoundException, SQLException {
+		int idLogin = entity.getLogin().getId();
+
+		if (idLogin == 0) {
+			idLogin = loginDao.insert(entity.getLogin()).getId();
+		}
+
 		PreparedStatement preparedStatement = getPreparedStatement(ICommands.INSERT_RELLOGINPHONEBOOK);
-		preparedStatement.setInt(1, loginDao.insert(entity.getLogin()).getId());
+		preparedStatement.setInt(1, idLogin);
 		preparedStatement.executeUpdate();
-		return null;
+
+		ResultSet resultSet = preparedStatement.getGeneratedKeys();
+		while (resultSet.next()) {
+			entity.setId(resultSet.getInt(1));
+		}
+
+		return entity;
 	}
 
 	@Override
