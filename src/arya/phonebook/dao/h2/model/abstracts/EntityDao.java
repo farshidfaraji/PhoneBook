@@ -25,7 +25,7 @@ public abstract class EntityDao<E> {
 	}
 
 	public PreparedStatement getPreparedStatement(String sql) throws ClassNotFoundException, SQLException {
-		return getConnectionH2().connect().prepareStatement(sql);
+		return getConnectionH2().connect().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 	}
 	
 	public abstract E insert(E entity) throws ClassNotFoundException, SQLException;

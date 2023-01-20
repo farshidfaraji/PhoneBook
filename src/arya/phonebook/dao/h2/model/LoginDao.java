@@ -21,6 +21,7 @@ public class LoginDao extends EntityDao<Login> {
 
 	@Override
 	public Login insert(Login entity) throws ClassNotFoundException, SQLException {
+		
 		int idUser = entity.getUser().getId();
 		int idUsernamePassword = entity.getUsernamePassword().getId();
 
@@ -28,9 +29,7 @@ public class LoginDao extends EntityDao<Login> {
 			idUser = userDao.insert(entity.getUser()).getId();
 		}
 		if (idUsernamePassword == 0) {
-			System.out.println("in if useridnamepassword befor chec" + idUsernamePassword);
 			idUsernamePassword = usernamePasswordDao.insert(entity.getUsernamePassword()).getId();
-			System.out.println("in if useridnamepassword after chec" + idUsernamePassword);
 		}
 
 		PreparedStatement preparedStatement = super.getPreparedStatement(ICommands.INSERT_LOGIN);
