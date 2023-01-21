@@ -4,10 +4,11 @@ import java.sql.SQLException;
 
 import arya.phonebook.business.server.internal.model.abstracts.EntityService;
 import arya.phonebook.dao.h2.model.PhonebookDao;
+import arya.phonebook.model.Phonebook;
 
-public class PhonebookService extends EntityService{
-	private PhonebookDao phonebookDao;
+public class PhonebookService extends EntityService<Phonebook, PhonebookDao> {
+	
 	public PhonebookService() throws ClassNotFoundException, SQLException {
-		phonebookDao = new PhonebookDao();
+		dao = new PhonebookDao();
 	}
 }

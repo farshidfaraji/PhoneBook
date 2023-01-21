@@ -6,8 +6,9 @@ import java.sql.Statement;
 import java.util.List;
 
 import arya.phonebook.dao.h2.ConnectionH2;
+import arya.phonebook.model.abstracts.Entity;
 
-public abstract class EntityDao<E> {
+public abstract class EntityDao<E extends Entity> {
 	private String url = "jdbc:h2:~/.db/phonebook/phonebook";
 	private String username = "sa";
 	private String password = "sa";
