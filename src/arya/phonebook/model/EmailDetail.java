@@ -6,6 +6,7 @@ public class EmailDetail extends Entity {
 
 	private String email;
 	private String description;
+	private UserContact userContact;
 
 	public EmailDetail() {
 		super();
@@ -33,4 +34,12 @@ public class EmailDetail extends Entity {
 		this.description = description;
 	}
 
+	public UserContact getUserContact() {
+		return userContact;
+	}
+
+	public void setUserContact(UserContact userContact) {
+		this.userContact = userContact;
+	}
+	
 }

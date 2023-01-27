@@ -10,6 +10,9 @@ import arya.phonebook.dao.h2.model.abstracts.EntityDao;
 import arya.phonebook.model.Contact;
 
 public class ContactDao extends EntityDao<Contact>{
+	
+	private UserContactDao userContactDao;
+	
 	public ContactDao() throws ClassNotFoundException, SQLException {
 		getStatement().execute(ICommands.CREATE_TABLE_CONTACT);
 	}
@@ -21,6 +24,11 @@ public class ContactDao extends EntityDao<Contact>{
 		preparedStatement.setString(2, entity.getPhone());
 		preparedStatement.setString(3, entity.getAddress());
 		preparedStatement.setString(4, entity.getDescription());
+		if (entity.getUserContact().getId() == 0) {
+			preparedStatement.setInt(5, userContactDao.insert(entity.getUserContact()).getId());
+		}else {
+			preparedStatement.setInt(5, entity.getUserContact().getId());
+		}
 		preparedStatement.executeUpdate();
 		
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();

@@ -10,7 +10,9 @@ import arya.phonebook.dao.h2.model.abstracts.EntityDao;
 import arya.phonebook.model.EmailDetail;
 
 public class EmailDetailDao extends EntityDao<EmailDetail> {
-
+	
+	private UserContactDao userContactDao;
+	
 	public EmailDetailDao() throws ClassNotFoundException, SQLException {
 		getStatement().execute(ICommands.CREATE_TABLE_EMAILDETAIL);
 	}
@@ -20,6 +22,11 @@ public class EmailDetailDao extends EntityDao<EmailDetail> {
 		PreparedStatement preparedStatement = getPreparedStatement(ICommands.INSERT_EMAILDETAIL);
 		preparedStatement.setString(1, entity.getEmail());
 		preparedStatement.setString(2, entity.getDescription());
+		if (entity.getUserContact().getId() == 0) {
+			preparedStatement.setInt(3, userContactDao.insert(entity.getUserContact()).getId());
+		}else {
+			preparedStatement.setInt(3, entity.getUserContact().getId());
+		}
 		preparedStatement.executeUpdate();
 		
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();

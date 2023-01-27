@@ -6,16 +6,16 @@ import arya.phonebook.model.abstracts.Entity;
 
 public class RelLoginPhonebook extends Entity {
 	private Login login;
-	private List<Phonebook> phonebook;
+	private List<Phonebook> phonebooks;
 
 	public RelLoginPhonebook() {
 		super();
 	}
 
-	public RelLoginPhonebook(Login login, List<Phonebook> phonebook) {
+	public RelLoginPhonebook(Login login, List<Phonebook> phonebooks) {
 		super();
 		this.login = login;
-		this.phonebook = phonebook;
+		this.phonebooks = phonebooks;
 	}
 
 	public Login getLogin() {
@@ -26,12 +26,12 @@ public class RelLoginPhonebook extends Entity {
 		this.login = login;
 	}
 
-	public List<Phonebook> getPhonebook() {
-		return phonebook;
+	public List<Phonebook> getPhonebooks() {
+		return phonebooks;
 	}
 
-	public void setPhonebook(List<Phonebook> phonebook) {
-		this.phonebook = phonebook;
+	public void setPhonebooks(List<Phonebook> phonebooks) {
+		this.phonebooks = phonebooks;
 	}
 
 }

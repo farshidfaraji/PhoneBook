@@ -11,9 +11,11 @@ import arya.phonebook.model.RelLoginPhonebook;
 
 public class RelLoginPhonebookDao extends EntityDao<RelLoginPhonebook> {
 	private LoginDao loginDao;
+	private PhonebookDao phonebookDao;
 
 	public RelLoginPhonebookDao() throws ClassNotFoundException, SQLException {
 		loginDao = new LoginDao();
+		phonebookDao = new PhonebookDao();
 		getStatement().execute(ICommands.CREATE_TABLE_RELLOGINPHONEBOOK);
 	}
 
@@ -33,6 +35,16 @@ public class RelLoginPhonebookDao extends EntityDao<RelLoginPhonebook> {
 		while (resultSet.next()) {
 			entity.setId(resultSet.getInt(1));
 		}
+		
+		entity.getPhonebooks().forEach( phonebook -> {
+			try {
+				phonebook.setRelLoginPhonebook(entity);
+				phonebookDao.insert(phonebook);
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 
 		return entity;
 	}

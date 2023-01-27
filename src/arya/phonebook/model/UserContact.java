@@ -1,6 +1,7 @@
 package arya.phonebook.model;
 
 import java.util.Calendar;
+import java.util.List;
 
 import arya.phonebook.model.abstracts.Entity;
 
@@ -8,23 +9,23 @@ public class UserContact extends Entity {
 	private String fristname;
 	private String lastname;
 	private Calendar birthday;
-	private EmailDetail emailDetail;
+	private List<EmailDetail> emailDetails;
 	private String description;
-	private Contact contact;
+	private List<Contact> contacts;
 
 	public UserContact() {
 		super();
 	}
 
-	public UserContact(String fristname, String lastname, Calendar birthday, EmailDetail emailDetail,
-			String description, Contact contact) {
+	public UserContact(String fristname, String lastname, Calendar birthday, List<EmailDetail> emailDetail,
+			String description, List<Contact> contact) {
 		super();
 		this.fristname = fristname;
 		this.lastname = lastname;
 		this.birthday = birthday;
-		this.emailDetail = emailDetail;
+		this.emailDetails = emailDetail;
 		this.description = description;
-		this.contact = contact;
+		this.contacts = contact;
 	}
 
 	public String getFristname() {
@@ -51,12 +52,12 @@ public class UserContact extends Entity {
 		this.birthday = birthday;
 	}
 
-	public EmailDetail getEmailDetail() {
-		return emailDetail;
+	public List<EmailDetail> getEmailDetails() {
+		return emailDetails;
 	}
 
-	public void setEmailDetail(EmailDetail emailDetail) {
-		this.emailDetail = emailDetail;
+	public void setEmailDetails(List<EmailDetail> emailDetails) {
+		this.emailDetails = emailDetails;
 	}
 
 	public String getDescription() {
@@ -67,12 +68,12 @@ public class UserContact extends Entity {
 		this.description = description;
 	}
 
-	public Contact getContact() {
-		return contact;
+	public List<Contact> getContacts() {
+		return contacts;
 	}
 
-	public void setContact(Contact contact) {
-		this.contact = contact;
+	public void setContacts(List<Contact> contacts) {
+		this.contacts = contacts;
 	}
 
 }

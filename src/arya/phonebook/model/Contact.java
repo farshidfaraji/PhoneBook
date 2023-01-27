@@ -7,6 +7,7 @@ public class Contact extends Entity {
 	private String phone;
 	private String address;
 	private String description;
+	private UserContact userContact;
 
 	public Contact() {
 		super();
@@ -51,5 +52,14 @@ public class Contact extends Entity {
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+	public UserContact getUserContact() {
+		return userContact;
+	}
+
+	public void setUserContact(UserContact userContact) {
+		this.userContact = userContact;
+	}
+	
 
 }

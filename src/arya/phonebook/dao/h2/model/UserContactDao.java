@@ -22,33 +22,49 @@ public class UserContactDao extends EntityDao<UserContact> {
 
 	@Override
 	public UserContact insert(UserContact entity) throws ClassNotFoundException, SQLException {
-
-		int idContact = entity.getContact().getId();
-		int idEmailDetail = entity.getEmailDetail().getId();
-
-		if (idContact == 0) {
-			idContact = contactDao.insert(entity.getContact()).getId();
-		}
-
-		if (idEmailDetail == 0) {
-			idEmailDetail = emailDetailDao.insert(entity.getEmailDetail()).getId();
-		}
-
 		PreparedStatement preparedStatement = getPreparedStatement(ICommands.INSERT_USERCONTACT);
 		preparedStatement.setString(1, entity.getFristname());
 		preparedStatement.setString(2, entity.getLastname());
-		preparedStatement.setDate(3, (Date) entity.getBirthday().getTime());
+		if (entity.getBirthday() != null) {
+			preparedStatement.setDate(3, new Date(entity.getBirthday().getTimeInMillis()));
+			// preparedStatement.setTimestamp(3, new Timestamp(entity.getBirthday().getTimeInMillis()));
+		}else {
+			preparedStatement.setDate(3, null);
+		}
 		preparedStatement.setString(4, entity.getDescription());
-		preparedStatement.setInt(5, idContact);
-		preparedStatement.setInt(6, idEmailDetail);
 		preparedStatement.executeUpdate();
 
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
 		while (resultSet.next()) {
 			entity.setId(resultSet.getInt(1));
 		}
+		
+		entity.getContacts().forEach(contact -> {
+				try {
+					if(contact.getId() == 0) {
+						contact.setUserContact(entity);
+						contactDao.insert(contact);
+					}
+				} catch (ClassNotFoundException | SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		});
+		
+		entity.getEmailDetails().forEach(emailDetail -> {
+			try {
+				if (emailDetail.getId() == 0) {
+					emailDetail.setUserContact(entity);
+					emailDetailDao.insert(emailDetail);
+				}
+			} catch (ClassNotFoundException | SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		});
 
-		return entity;
+	return entity;
+
 	}
 
 	@Override
