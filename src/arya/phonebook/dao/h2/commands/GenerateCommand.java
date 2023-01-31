@@ -18,6 +18,9 @@ public class GenerateCommand<E extends Entity> {
 	public String createTable() {
 		return new CreateTable().createQuery(entity);
 	}
+	public String insertTable() {
+		return new InsertTable().createQuery(entity);
+	}
 	
 	private class CreateTable {
 		private List<String> foreignKeys = new ArrayList<>();
@@ -32,7 +35,7 @@ public class GenerateCommand<E extends Entity> {
 			
 			StringBuffer stringBuffer = new StringBuffer("CREATE TABLE IF NOT EXISTS ");
 			stringBuffer.append(entity.getSimpleName().toUpperCase());
-			stringBuffer.append("S (");
+			stringBuffer.append("S (ID INT AUTO_INCREMENT PRIMARY KEY, ");
 			Arrays.stream(entity.getDeclaredFields()).forEach(field -> {
 			if (field.getType().isEnum()) {
 				stringBuffer.append(field.getType().getSimpleName().toUpperCase()+ " VARCHAR(255), ");
@@ -50,8 +53,8 @@ public class GenerateCommand<E extends Entity> {
 				}
 			}
 			});
-			
-			stringBuffer.append("ID INT AUTO_INCREMENT PRIMARY KEY);");
+			stringBuffer.delete(stringBuffer.lastIndexOf(", "), stringBuffer.length());
+			stringBuffer.append(");");
 			
 			return stringBuffer.toString();
 		}
@@ -67,6 +70,36 @@ public class GenerateCommand<E extends Entity> {
 				return field + " INT";
 			}
 		}
+	}
+	private class InsertTable{
+		
+		public String createQuery(Class<E> entity) {
+			StringBuffer stringBuffer = new StringBuffer("INSERT INTO ");
+			stringBuffer.append(entity.getSimpleName().toUpperCase());
+			stringBuffer.append("S (");
+			StringBuffer values = new StringBuffer();
+			Arrays.stream(entity.getDeclaredFields()).forEach(field -> {
+				String typeField = field.getType().getSimpleName().toLowerCase();
+				String nameField = field.getName().toLowerCase();
+				if (typeField.equals(nameField) || typeField.equals("list")) {
+					stringBuffer.append("ID_");
+					stringBuffer.append(field.getName().toUpperCase());
+					stringBuffer.append(", ");
+				}else {
+					stringBuffer.append(field.getName().toUpperCase());
+					stringBuffer.append(", ");
+				}
+				values.append("?");
+				values.append(", ");
+			});
+			stringBuffer.delete(stringBuffer.lastIndexOf(", "), stringBuffer.length());
+			stringBuffer.append(") VALUES (");
+			values.delete(values.lastIndexOf(", "), values.length());
+			stringBuffer.append(values.toString());
+			stringBuffer.append(");");
+			return stringBuffer.toString();
+		}
+		
 	}
 
 }
