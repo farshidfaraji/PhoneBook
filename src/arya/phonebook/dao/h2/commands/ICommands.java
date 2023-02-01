@@ -22,9 +22,25 @@ public interface ICommands {
 	public static final String INSERT_RELLOGINPHONEBOOK = "insert into REL_LOGIN_PHONEBOOKS (ID_LOGINS) values (?);";
 	public static final String INSERT_PHONEBOOK = "insert into PHONEBOOKS (ID_REL_LOGIN_PHONEBOOKS, ID_USER_CONTACTS, ID_GROUPS) values (?, ?, ?);";
 	//------------------------------------DELETE----------------------------------------------
-	
+	public static final String DELETE_USER = "DELETE FROM USERS WHERE (id = ?);";
+	public static final String DELETE_USERNAMEPASSWORD = "DELETE FROM USERNAME_PASSWORDS WHERE (id = ?);";
+	public static final String DELETE_LOGIN = "DELETE FROM LOGINS WHERE (id = ?);";
+	public static final String DELETE_CONTACT = "DELETE FROM CONTACTS WHERE (id = ?);";
+	public static final String DELETE_EMAILDETAIL = "DELETE FROM EMAIL_DETAILS WHERE (id = ?);";
+	public static final String DELETE_USERCONTACT = "DELETE FROM USER_CONTACTS WHERE (id = ?);";
+	public static final String DELETE_GROUP = "DELETE FROM GROUPS WHERE (id = ?);";
+	public static final String DELETE_RELLOGINPHONEBOOK = "DELETE FROM REL_LOGIN_PHONEBOOKS WHERE (id = ?);";
+	public static final String DELETE_PHONEBOOK = "DELETE FROM PHONEBOOKS WHERE (id = ?);";
 	//------------------------------------UPDATE----------------------------------------------
-	
+	public static final String UPDATE_USER = "UPDATE USERS SET FIRSTNAME = ? , LASTNAME = ? , PHOTO = ? , EMAIL = ? , NATIONAL_ID = ? , ADDRESS = ? , BIRTHDAY = ? , PHONE = ? , GENDER = ? WHERE (id = ?);";
+	public static final String UPDATE_USERNAMEPASSWORD = "UPDATE USERNAME_PASSWORDS SET USERNAME = ? , PASSWORD = ? WHERE (id = ?);";
+	public static final String UPDATE_LOGIN = "UPDATE LOGINS SET ID_USERS = ? , ID_USERNAME_PASSWORDS = ? WHERE (id = ?);";
+	public static final String UPDATE_CONTACT = "UPDATE CONTACTS SET TYPE = ? , PHONE = ? , ADDRESS = ? , DESCRIPTION = ? WHERE (id = ?);";
+	public static final String UPDATE_EMAILDETAIL = "UPDATE EMAIL_DETAILS SET EMAIL = ? , DESCRIPTION = ? WHERE (id = ?);";
+	public static final String UPDATE_USERCONTACT = "UPDATE USER_CONTACTS SET FIRSTNAME = ? , LASTNAME = ? , BIRTHDAY = ? , DESCRIPTION = ? , ID_CONTACTS = ? , ID_EMAIL_DETAILS = ? WHERE (id = ?);";
+	public static final String UPDATE_GROUP = "UPDATE GROUPS SET NAME = ? , DESCRIPTION = ? WHERE (id = ?);";
+	public static final String UPDATE_RELLOGINPHONEBOOK = "UPDATE REL_LOGIN_PHONEBOOKS SET ID_LOGINS = ? WHERE (id = ?);";
+	public static final String UPDATE_PHONEBOOK = "UPDATE PHONEBOOKS SET ID_REL_LOGIN_PHONEBOOKS = ? , ID_USER_CONTACTS = ? , ID_GROUPS = ? WHERE (id = ?);";
 	//------------------------------------SELECT----------------------------------------------
 	
 	//------------------------------------SELECT_LIST----------------------------------------------

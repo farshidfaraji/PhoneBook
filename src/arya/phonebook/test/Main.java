@@ -6,7 +6,7 @@ import arya.phonebook.model.UserContact;
 public class Main {
 
 	public static void main(String[] args) {
-		System.out.println(new GenerateCommand<>(UserContact.class).insertTable());
+		System.out.println(new GenerateCommand<>(UserContact.class).updateTable());
 	}
 
 }

@@ -21,6 +21,12 @@ public class GenerateCommand<E extends Entity> {
 	public String insertTable() {
 		return new InsertTable().createQuery(entity);
 	}
+	public String deleteTable() {
+		return new DeleteTable().createQuery(entity);
+	}
+	public String updateTable() {
+		return new UpdateTable().createQuery(entity);
+	}
 	
 	private class CreateTable {
 		private List<String> foreignKeys = new ArrayList<>();
@@ -101,5 +107,38 @@ public class GenerateCommand<E extends Entity> {
 		}
 		
 	}
-
+	private class DeleteTable{
+		
+		public String createQuery(Class<E> entity) {
+			
+			StringBuffer stringBuffer = new StringBuffer("DELETE FROM ");
+			stringBuffer.append(entity.getSimpleName().toUpperCase());
+			stringBuffer.append("S WHERE (id = ?);");
+			return stringBuffer.toString();
+		}
+	}
+	private class UpdateTable{
+		public String createQuery(Class<E> entity) {
+			StringBuffer stringBuffer = new StringBuffer("UPDATE ");
+			stringBuffer.append(entity.getSimpleName().toUpperCase());
+			stringBuffer.append("S SET ");
+			Arrays.stream(entity.getDeclaredFields()).forEach(field -> {
+				String typeField = field.getType().getSimpleName().toLowerCase();
+				String nameField = field.getName().toLowerCase();
+				if (typeField.equals(nameField) || (typeField.equals("list"))) {
+					stringBuffer.append("ID_");
+					stringBuffer.append(field.getName().toUpperCase());
+					stringBuffer.append(" = ? ");
+					stringBuffer.append(", ");
+				} else {
+					stringBuffer.append(field.getName().toUpperCase());
+					stringBuffer.append(" = ? ");
+					stringBuffer.append(", ");
+				}
+			});
+			stringBuffer.delete(stringBuffer.lastIndexOf(", "), stringBuffer.length());
+			stringBuffer.append("WHERE (id = ?);");
+			return stringBuffer.toString();
+		}
+	}
 }
