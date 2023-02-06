@@ -27,12 +27,16 @@ public class GenerateCommand<E extends Entity> {
 	public String updateTable() {
 		return new UpdateTable().createQuery(entity);
 	}
-	
+	public String select() {
+		return new Select().createQuery(entity);
+	}
+	public String selectAll() {
+		return new SelectAll().createQuery(entity);
+	}
 	private class CreateTable {
 		private List<String> foreignKeys = new ArrayList<>();
 		
 		public String createQuery(Class<E> entity) {
-			
 			Map<String, String> dataType = new HashMap<>();
 			dataType.put("int", "INT");
 			dataType.put("string", "VARCHAR(255)");
@@ -49,6 +53,7 @@ public class GenerateCommand<E extends Entity> {
 				String dataTypeField = dataType.get(field.getType().getSimpleName().toLowerCase());
 				if (dataTypeField == null) {
 					dataTypeField = innerEntity(field.getType().getSimpleName().toUpperCase());
+					System.out.println(dataTypeField);
 				} else {
 					stringBuffer.append(field.getName().toUpperCase());
 					stringBuffer.append(" ");
@@ -68,8 +73,6 @@ public class GenerateCommand<E extends Entity> {
 		public String innerEntity(String entity) {
 			if (entity.equalsIgnoreCase("list")) {
 				return "";
-			} else if (entity.equalsIgnoreCase("list")) {
-				return "=>Enum<";
 			} else {
 				String field = "ID_" + entity;
 				foreignKeys.add("FOREIGN KEY (" + field + ") REFERENCES " + entity + "S(ID)");
@@ -141,4 +144,21 @@ public class GenerateCommand<E extends Entity> {
 			return stringBuffer.toString();
 		}
 	}
+	private class Select{
+		public String createQuery(Class<E> entity) {
+			StringBuffer stringBuffer = new StringBuffer("SELECT * FROM ");
+			stringBuffer.append(entity.getSimpleName().toUpperCase());
+			stringBuffer.append("S WHERE (id = ?);");
+			return stringBuffer.toString();
+		}
+	}
+	private class SelectAll{
+		public String createQuery(Class<E> entity) {
+			StringBuffer stringBuffer = new StringBuffer("SELECT * FROM ");
+			stringBuffer.append(entity.getSimpleName().toUpperCase());
+			stringBuffer.append("S;");
+			return stringBuffer.toString();
+		}
+	}
+	
 }

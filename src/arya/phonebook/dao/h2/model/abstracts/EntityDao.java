@@ -28,11 +28,23 @@ public abstract class EntityDao<E extends Entity> {
 	public PreparedStatement getPreparedStatement(String sql) throws ClassNotFoundException, SQLException {
 		return getConnectionH2().connect().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 	}
-	
+
 	public abstract E insert(E entity) throws ClassNotFoundException, SQLException;
-	public abstract E delete(E entity);
-	public abstract E update(E entity);
-	public abstract E select(E entity);
-	public abstract List<E> select();
-	
+
+	public abstract List<E> insert(List<E> entitys) throws ClassNotFoundException, SQLException;
+
+	public abstract E delete(E entity) throws ClassNotFoundException, SQLException;
+
+	public abstract List<E> delete(List<E> entitys) throws ClassNotFoundException, SQLException;
+
+	public abstract E update(E entity) throws ClassNotFoundException, SQLException;
+
+	public abstract List<E> update(List<E> entitys) throws ClassNotFoundException, SQLException;
+
+	public abstract E select(E entity) throws ClassNotFoundException, SQLException;
+
+	public abstract E select(int id) throws ClassNotFoundException, SQLException;
+
+	public abstract List<E> selects() throws ClassNotFoundException, SQLException;
+
 }
