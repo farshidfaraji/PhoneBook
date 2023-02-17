@@ -8,6 +8,7 @@ import arya.phonebook.model.enums.EnumGender;
 public class User extends Entity {
 	private String fristname;
 	private String lastname;
+	private String password;
 	private byte[] photo;
 	private String email;
 	private String nationalID;
@@ -20,11 +21,12 @@ public class User extends Entity {
 		super();
 	}
 
-	public User(String fristname, String lastname, byte[] photo, String email, String nationalID, String address,
+	public User(String fristname, String lastname,String password, byte[] photo, String email, String nationalID, String address,
 			Calendar birthday, String phone, EnumGender gender) {
 		super();
 		this.fristname = fristname;
 		this.lastname = lastname;
+		this.password = password;
 		this.photo = photo;
 		this.email = email;
 		this.nationalID = nationalID;
@@ -48,6 +50,14 @@ public class User extends Entity {
 
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
 	}
 
 	public byte[] getPhoto() {

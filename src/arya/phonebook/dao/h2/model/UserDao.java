@@ -21,19 +21,20 @@ public class UserDao extends EntityDao<User> {
 		PreparedStatement preparedStatement = super.getPreparedStatement(new GenerateCommand<>(User.class).insertTable());
 		preparedStatement.setString(1, entity.getFristname());
 		preparedStatement.setString(2, entity.getLastname());
-		preparedStatement.setBytes(3, entity.getPhoto());
-		preparedStatement.setString(4, entity.getEmail());
-		preparedStatement.setString(5, entity.getNationalID());
-		preparedStatement.setString(6, entity.getAddress());
+		preparedStatement.setString(3, entity.getPassword());
+		preparedStatement.setBytes(4, entity.getPhoto());
+		preparedStatement.setString(5, entity.getEmail());
+		preparedStatement.setString(6, entity.getNationalID());
+		preparedStatement.setString(7, entity.getAddress());
 		if (entity.getBirthday() != null) {
-			preparedStatement.setDate(7, new Date(entity.getBirthday().getTimeInMillis()));
+			preparedStatement.setDate(8, new Date(entity.getBirthday().getTimeInMillis()));
 			// preparedStatement.setTimestamp(7, new
 			// Timestamp(entity.getBirthday().getTimeInMillis()));
 		} else {
-			preparedStatement.setDate(7, null);
+			preparedStatement.setDate(8, null);
 		}
-		preparedStatement.setString(8, entity.getPhone());
-		preparedStatement.setString(9, entity.getGender().name());
+		preparedStatement.setString(9, entity.getPhone());
+		preparedStatement.setString(10, entity.getGender().name());
 		preparedStatement.executeUpdate();
 
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -57,19 +58,20 @@ public class UserDao extends EntityDao<User> {
 		PreparedStatement preparedStatement = super.getPreparedStatement(new GenerateCommand<>(User.class).updateTable());
 		preparedStatement.setString(1, entity.getFristname());
 		preparedStatement.setString(2, entity.getLastname());
-		preparedStatement.setBytes(3, entity.getPhoto());
-		preparedStatement.setString(4, entity.getEmail());
-		preparedStatement.setString(5, entity.getNationalID());
-		preparedStatement.setString(6, entity.getAddress());
+		preparedStatement.setString(3, entity.getPassword());
+		preparedStatement.setBytes(4, entity.getPhoto());
+		preparedStatement.setString(5, entity.getEmail());
+		preparedStatement.setString(6, entity.getNationalID());
+		preparedStatement.setString(7, entity.getAddress());
 		if (entity.getBirthday() != null) {
-			preparedStatement.setDate(7, new Date(entity.getBirthday().getTimeInMillis()));
+			preparedStatement.setDate(8, new Date(entity.getBirthday().getTimeInMillis()));
 			// preparedStatement.setTimestamp(7, new
 			// Timestamp(entity.getBirthday().getTimeInMillis()));
 		} else {
-			preparedStatement.setDate(7, null);
+			preparedStatement.setDate(8, null);
 		}
-		preparedStatement.setString(8, entity.getPhone());
-		preparedStatement.setString(9, entity.getGender().name());
+		preparedStatement.setString(9, entity.getPhone());
+		preparedStatement.setString(10, entity.getGender().name());
 		preparedStatement.executeUpdate();
 
 		ResultSet resultSet = preparedStatement.getGeneratedKeys();
@@ -94,6 +96,7 @@ public class UserDao extends EntityDao<User> {
 			userReult.setId(resultSet.getInt("ID"));
 			userReult.setLastname(resultSet.getString("LASTNAME"));
 			userReult.setNationalID(resultSet.getString("NATIONALID"));
+			userReult.setPassword(resultSet.getString("PASSWORD"));
 			userReult.setPhone(resultSet.getString("PHONE"));
 			userReult.setPhoto(null);  // FIXME
 		}
@@ -114,6 +117,7 @@ public class UserDao extends EntityDao<User> {
 			userReult.setId(resultSet.getInt("ID"));
 			userReult.setLastname(resultSet.getString("LASTNAME"));
 			userReult.setNationalID(resultSet.getString("NATIONALID"));
+			userReult.setPassword(resultSet.getString("PASSWORD"));
 			userReult.setPhone(resultSet.getString("PHONE"));
 			userReult.setPhoto(null);  // FIXME
 			resUsers.add(userReult);
@@ -176,6 +180,7 @@ public class UserDao extends EntityDao<User> {
 			resUser.setId(resultSet.getInt("ID"));
 			resUser.setLastname(resultSet.getString("LASTNAME"));
 			resUser.setNationalID(resultSet.getString("NATIONALID"));
+			resUser.setPassword(resultSet.getString("PASSWORD"));
 			resUser.setPhone(resultSet.getString("PHONE"));
 			resUser.setPhoto(null);  // FIXME
 		}

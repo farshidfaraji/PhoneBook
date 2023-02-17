@@ -1,5 +1,11 @@
 package arya.phonebook.view.controller;
 
-public class MainController {
+import javafx.fxml.FXML;
 
+public class MainController {
+	
+	@FXML
+	public void mnuCloseClick(){
+		System.exit(0);
+	}
 }
